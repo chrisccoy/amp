@@ -28,6 +28,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var URL string
+
 // serviceCmd represents the service command
 var serviceCmd = &cobra.Command{
 	Use:   "service",
@@ -38,7 +40,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		result := client.NewHelper().SetBaseURL("http://localhost:32777").Call(client.AmpStatusSvc).(*data.AmpStatus)
+		result := client.NewHelper().SetBaseURL(URL).Call(client.AmpStatusSvc).(*data.AmpStatus)
 		fmt.Printf("Service Results \n\t Name: %s \n\t Id: %d\n\t Status: %s\n ", result.Name, result.Id, result.Status)
 		//	fmt.Println("service called")
 	},
@@ -46,6 +48,7 @@ to quickly create a Cobra application.`,
 
 func init() {
 	RootCmd.AddCommand(serviceCmd)
+	serviceCmd.Flags().StringVarP(&URL, "url", "u", "http://localhost:32777", "Base URL To Connect with")
 
 	// Here you will define your flags and configuration settings.
 
