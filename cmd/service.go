@@ -23,6 +23,8 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/appcelerator/amp-client-lib/client"
+	"github.com/appcelerator/amp-client-lib/client/data"
 	"github.com/spf13/cobra"
 )
 
@@ -32,13 +34,13 @@ var serviceCmd = &cobra.Command{
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
-
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
-		fmt.Println("service called")
+		result := client.NewHelper().SetBaseURL("http://localhost:32777").Call(client.AmpStatusSvc).(*data.AmpStatus)
+		fmt.Printf("Service Results \n\t Name: %s \n\t Id: %d\n\t Status: %s\n ", result.Name, result.Id, result.Status)
+		//	fmt.Println("service called")
 	},
 }
 
